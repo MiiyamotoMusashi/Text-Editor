@@ -1,6 +1,6 @@
 # Text Editor
 
-A simple program developed using PySide6.
+A simple program for write everything you want, developed using PySide6.
 
 # Features
 
