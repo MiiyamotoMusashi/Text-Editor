@@ -1,2 +1,9 @@
 # Text Editor
- Text Editor using PySide6
+===
+
+A simple program developed using PySide6.
+
+# Features
+===
+
+You can **save** and **open** files.
