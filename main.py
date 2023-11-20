@@ -4,6 +4,7 @@ from menuBar import MenuBar
 import qdarkstyle
 
 
+# Creating the status bar
 class StatusBar(QStatusBar):
     def __init__(self, textEditor) -> None:
         super().__init__()
@@ -15,83 +16,83 @@ class StatusBar(QStatusBar):
 class TextEditor(QTextEdit):
     def __init__(self):
         super().__init__()
-        self.setUndoRedoEnabled(True)
-        self.setWordWrapMode(QTextOption.NoWrap)
+        self.setUndoRedoEnabled(True) # Activating the Ctrl + C to copy and Ctrl + V to paste
+        self.setWordWrapMode(QTextOption.NoWrap) # Deactivating the world wrap
 
-        self.currentFilePath = "" # Caminho do arquivo que está aberto atualmente
+        self.currentFilePath = "" # Picking up the currently open file
 
 #endregion
 
 #region MAINWINDOW
-class MainWindow(QMainWindow): # Janela principal
+class MainWindow(QMainWindow): # Main Window
 	"""
-    Todo: Arrumar o encoding do texto ao abrir um arquivo
+    Todo: Fix the text enconding when opening a file
     """
     
 	def __init__(self) -> None:
 		super().__init__()
 		
-		self.initUI() # Chamando o construtor do UI
+		self.initUI() # Builder command of the UI
 		
 	def initUI(self):
-		self.setWindowTitle("PyCode Studio")
-		self.resize(QApplication.primaryScreen().size().width() - 20, QApplication.primaryScreen().size().height() - 75)
-		self.setStyleSheet(qdarkstyle.load_stylesheet_pyside6())
-		print(self.styleSheet())
+		self.setWindowTitle("PyCode Studio") # Title of the window
+		self.resize(QApplication.primaryScreen().size().width() - 20, QApplication.primaryScreen().size().height() - 75) # Resizing the window to te screen size minus 20, 75
+		self.setStyleSheet(qdarkstyle.load_stylesheet_pyside6()) # Setting the theme
 
 		self.textEditorLayout = QVBoxLayout()
 
-		#region TECLAS DE ATALHO
+		#region SHORCUT KEYS
 		self.newFileShortcut = QShortcut(QKeySequence("Ctrl+N"), self) # Tecla de atalho pra abrir um novo arquivo
 		self.saveShortcut = QShortcut(QKeySequence("Ctrl+S"), self) # Tecla de atalho pra salvar o arquivo
 		#endregion
 
-		#region CONETCTANDO AS TECLAS DE ATALHO AOS COMANDOS
+		#region CONNECTING THE SHORCUT KEYS TO HIS COMMANDS
 		self.newFileShortcut.activated.connect(self.newFile)
 		self.saveShortcut.activated.connect(self.saveFile)
 		#endregion
 
-		# Criando o campo de texto
+		# Creating the text field
 		self.textEditor = TextEditor()
 		self.textEditorLayout.addWidget(self.textEditor)
    
-		# Criando a barra de status
+		# Creating the status bar
 		self.myStatusBar = StatusBar(self.textEditor)
 		self.setStatusBar(self.myStatusBar)
     
-		# Criando a barra de menu
+		# Creating the menu bar
 		self.myMenuBar = MenuBar(self, self.textEditor, self)
 		self.setMenuBar(self.myMenuBar)
 
+		# Creating the text editor container
 		textEditorContainer = QWidget()
 		textEditorContainer.setLayout(self.textEditorLayout)
 
-		self.setCentralWidget(textEditorContainer)
+		self.setCentralWidget(textEditorContainer) # Setting the text editor as the central widget of the app
 
 		self.show()
   
-	def saveFile(self): # Função da tecla de atalho saveShorcut
-		text_ = self.textEditor.toPlainText() # Pega o texto que esta no QTextEdit
+	def saveFile(self): # Function of the shorcut key saveShorcut
+		text_ = self.textEditor.toPlainText() # Get the text wich is in QTextEdit
   
-		filePath = self.textEditor.filePath # Pega o arquivo atual que já estava aberto
-		file = open(filePath, "w") # Abro o arquivo no modo "w" que significa que eu vou escrever nesse arquivo
-		file.write(text_) # Escrevo no arquivo
-		file.close() # Fecho o arquivo pra evitar problemas
+		filePath = self.textEditor.filePath # Picking up the currently open file
+		file = open(filePath, "w") # Open the file in the mode "w" wich means i will write in this file
+		file.write(text_) # Write in the file
+		file.close() # Closing the file to avoid problems
   
-	def newFile(self):
-		fileDialog = QFileDialog()
-		path, _ = fileDialog.getSaveFileName(None, "Create a new file", "NewFile", "All Files(*.txt)")
+	def newFile(self): # Function of the shorcut key newFileShorcut
+		fileDialog = QFileDialog() # I create the file explorer
+		path, _ = fileDialog.getSaveFileName(None, "Create a new file", "NewFile", "All Files(*.txt)") # Opening the file explorer and picking up the path from the new file
 
-		self.textEditor.currentFilePath = path
-		self.textEditor.clear()
+		self.textEditor.currentFilePath = path # Setting the actual open file as the new file
+		self.textEditor.clear() # Clearing the text of previous files
 
 #endregion
-        
-app = QApplication()
 
-# app.setStyleSheet(qdarkstyle.load_stylesheet_pyside6())
-app.setFont(QFont("Consolas", 16))
+if __name__ == "__main__":
+	app = QApplication()
 
-window = MainWindow()
+	app.setFont(QFont("Consolas", 16))
 
-app.exec()
+	window = MainWindow()
+
+	app.exec()
