@@ -1,5 +1,8 @@
-# PyCode Studio
-<img alt="Static Badge" src="https://img.shields.io/badge/PySide6-blue">
+<h1 align="center"> PyCode Studio </h1>
+<p align="center">
+<img loading="lazy" src="https://img.shields.io/badge/Status-incomplete-green"/>
+<img loading="lazy" src="https://img.shields.io/badge/PySide6-blue"/>
+</p>
 
 ## Description
 PyCode Studio is a text editor application built with Python and the PySide6 library. It provides a dark-themed interface for writing and editing text files, with features such as undo/redo, word wrap, and file handling (open, save, save as).
